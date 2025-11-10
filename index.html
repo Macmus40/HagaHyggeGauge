@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HagaHygge Crochet Gauge Helper</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class', // Enable class-based dark mode
+        theme: {
+          extend: {
+            colors: {
+              'brand-bg': 'var(--color-brand-bg)',
+              'brand-text': 'var(--color-brand-text)',
+              'brand-accent': 'var(--color-brand-accent)',
+              'brand-primary': 'var(--color-brand-primary)',
+              'brand-soft-accent': 'var(--color-brand-soft-accent)',
+              'brand-subtle-bg': 'var(--color-brand-subtle-bg)',
+              'brand-result-bg': 'var(--color-brand-result-bg)',
+            },
+            fontFamily: {
+              sans: ['"Helvetica Neue"', 'Helvetica', 'Arial', 'sans-serif'],
+            },
+          },
+        },
+      }
+    </script>
+    <style>
+      :root {
+        --color-brand-bg: #F8F6F4;
+        --color-brand-text: #5D5550;
+        --color-brand-accent: #4A6C55; /* Darker, more contrasty green */
+        --color-brand-primary: #91867B;
+        --color-brand-soft-accent: #D4CFC7;
+        --color-brand-subtle-bg: #FFFFFF;
+        --color-brand-result-bg: #ecfdf5; /* Corresponds to emerald-50 */
+      }
+      html.dark {
+        /* "Inverted Hygge" / Sage theme: A light background to support the user's desired dark green text */
+        --color-brand-bg: #E0E5E2; /* Very light, calming sage-grey */
+        --color-brand-text: #5D5550; /* Dark text for readability */
+        --color-brand-accent: #293d34; /* The user's requested deep, rich green for headers */
+        --color-brand-primary: #8A8179; /* Medium grey for secondary text */
+        --color-brand-soft-accent: #D4CFC7; /* Light grey for borders */
+        --color-brand-subtle-bg: #FFFFFF; /* Crisp white for panels, creating a clean layered effect */
+        --color-brand-result-bg: #293d34; /* The deep green background for the result panel */
+      }
+      body {
+        background-color: var(--color-brand-bg);
+        color: var(--color-brand-text);
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      /* In the new dark ("Sage") theme, the result panel is dark, so text inside must be light for contrast. */
+      html.dark .bg-brand-result-bg {
+        color: var(--color-brand-bg); /* Use the light sage-grey from the background for text */
+      }
+      html.dark .bg-brand-result-bg .text-brand-primary {
+        color: #D4CFC7; /* Ensure secondary text in the result box is also light */
+      }
+
+
+      /* This is now used as a staging area for the PDF generation */
+      #print-summary {
+        display: none;
+        background-color: white; /* Ensure a white background for PDF */
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        color: #000;
+        margin: 0;
+        padding: 1.5rem;
+      }
+      #print-summary header { text-align: center; margin-bottom: 2rem; }
+      #print-summary h1 { font-size: 1.8rem; font-weight: 300; color: #4A6C55; margin-bottom: 0.5rem; }
+      #print-summary .print-header-sub { font-size: 1.1rem; color: #5D5550; }
+      #print-summary .print-section-title { font-size: 1.4rem; font-weight: 400; color: #4A6C55; border-bottom: 1px solid #D4CFC7; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+      #print-summary table { width: 100%; border-collapse: collapse; font-size: 1rem; }
+      #print-summary td { padding: 0.75rem 0.5rem; vertical-align: top; }
+      #print-summary tr { border-bottom: 1px solid #eee; }
+      #print-summary tr:last-child { border-bottom: none; }
+      #print-summary td:first-child { font-weight: bold; width: 60%; text-align: left; }
+      #print-summary .print-value { color: #222; font-weight: 500; text-align: right; }
+      #print-summary .final-result-value { font-weight: bold; font-size: 1.5rem; color: #000; text-align: right; }
+      #print-summary footer { margin-top: 3rem; text-align: center; font-size: 0.875rem; color: #888; }
+
+      @media print {
+        body {
+          background-color: #fff !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        .no-print {
+          display: none !important;
+        }
+        /* The #print-summary is now handled by html2canvas, so we hide it for native print to avoid duplication */
+        #print-summary {
+          display: none !important;
+        }
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/"
+  }
+}
+</script>
+</head>
+  <body class="bg-brand-bg">
+    <div id="root"></div>
+    <!-- Libraries for robust PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

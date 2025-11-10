@@ -1,0 +1,5 @@
+{
+  "name": "Gauge Helper v2",
+  "description": "A calm, minimalist web application that helps crocheters calculate how many stitches they need for a project based on a 10x10 gauge swatch.",
+  "requestFramePermissions": []
+}
